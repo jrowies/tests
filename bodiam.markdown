@@ -438,7 +438,7 @@ Feel free to use these or to create your own.
     public class HomeController
     {
       ...
-```	  
+```
 
 Multiple roles can be entered as a single string with comma-separated values   
 
@@ -447,7 +447,7 @@ Multiple roles can be entered as a single string with comma-separated values
     public class HomeController
     {
       ... 
-```	  
+```
 
 #The Administration Interface
 
