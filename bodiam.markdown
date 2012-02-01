@@ -27,15 +27,15 @@ Bodiam is an authorization library that restricts what items a given user is all
 3. Open the Web.config file of your project
 4. Inside the service element in the microsoft.IdentityModel section add the following XML
 
-```xml
-<microsoft.identityModel>
-  <service>
-     ...
-     <claimsAuthenticationManager type="Bodiam.Web.CustomClaimsAuthenticationManager" />
-    ...
-  </service>
-</microsoft.identityModel>
-```
+	```xml
+	<microsoft.identityModel>
+	  <service>
+	     ...
+	     <claimsAuthenticationManager type="Bodiam.Web.CustomClaimsAuthenticationManager" />
+	    ...
+	  </service>
+	</microsoft.identityModel>
+	```
 5. In the conectionStrings section add the connection string to the Bodiam database
       **`<configuration>   
       ...  
