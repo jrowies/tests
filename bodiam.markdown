@@ -455,7 +455,7 @@ You can check the script located at ~/database/Bodiam.Insert-Admin.sql to see ho
 2. In the Admin area, you will find a menu item linking back the user to the application. By default, it will redirect the user to ~/Home/Index. If you want to change this behavior, edit the Navigation view file located at ~/Areas/Admin/Security/Views/Shared
 3. If you have not already, follow the Bodiam setup instructions.
 
-#**Adapting the Administration Area to your project**
+##Adapting the Administration Area to your project
 
 Currently, the provided Administration Area is not fully implemented. You will need to implement certain snippets of code if you plan to include the area in your solution.
 The Administration Area will need you define the following types/entities
@@ -488,6 +488,7 @@ An alternative for registering Item Types and Privileges more easily is to use t
 
 This method uses the following convention to discover Item Types and Privileges:
 The types passed to the method, must have: 
+
 1. A constant field called "Name" which will store the name of the Item Type
 2. A nested class called "Privileges" with constant fields storing the name of all the privileges for the corresponding item type 
 
@@ -523,6 +524,7 @@ namespace Permissions
 ##Affected methods (AdminController)
 
 If you go to the AdminController code, you will find the former code commented out so you can just copy the parts you need and replace with new code the ones you do not.
+
 - public ActionResult ItemPermissions
 - public JsonResult AddPermissionsToUser
 - public JsonResult RemovePermissionFromUser
