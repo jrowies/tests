@@ -1,3 +1,5 @@
+[MODEL]: https://github.com/jrowies/tests/raw/master/pics/Model.png
+
 #**Bodiam**
 ##*Installation and Basic Usage*
 
@@ -108,7 +110,7 @@ Bodiam expects the user to define the security model based on the type of items 
 
 The following diagram shows the conceptual security model
 
-![Model.png](/pics/Model.png)
+![Model.png][MODEL]
 
 [PIC WORD DOC PAGE 6]
 
