@@ -59,7 +59,7 @@ Bodiam is an authorization library that restricts what items a given user is all
 	        ...
 	        <add key="SmtpHost" value="XXXXX" />
 	        <add key="SmtpPort" value="XXXXX" />
-	        <add key="SmtpUser" value="XXXXX@XXXXX” />
+	        <add key="SmtpUser" value="XXXXX@XXXXX" />
 	        <add key="SmtpPassword" value="XXXXX" />
 	        <add key="SmtpSenderName" value="XXXXX" />
 	        <add key="SmtpSenderAddress" value="XXXXX@XXXXX"   />
@@ -91,13 +91,13 @@ The ConfigReader class has two delegates that can be assigned in order to resolv
 
 This is an example showing how to provide a delegate to read application settings values from the Windows Azure service configuration file:
    
-    ```c#
+```c#
     Bodiam.Helpers.ConfigReader.GetConfigValueDelegate = 
 	    (string key) =>   
 	    {   
 	        return RoleEnvironment.GetConfigurationSettingValue(key);   
 	    };
-	```
+```
 
 In a similar way, you can provide a delegate to read connection strings by setting the property **GetConnectionStringDelegate** of the **ConfigReader** class.   
 
