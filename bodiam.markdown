@@ -108,7 +108,7 @@ Bodiam expects the user to define the security model based on the type of items 
 
 The following diagram shows the conceptual security model
 
-(/pics/Model.png)
+![Model.png](/pics/Model.png)
 
 [PIC WORD DOC PAGE 6]
 
