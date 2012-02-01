@@ -108,6 +108,8 @@ Bodiam expects the user to define the security model based on the type of items 
 
 The following diagram shows the conceptual security model
 
+(/pics/Model.png)
+
 [PIC WORD DOC PAGE 6]
 
 Bodiam already provides implementations of the User and the Role classes. Bodiam utilizes the concept of Role as a way to ease the management of a set of common permissions.   
