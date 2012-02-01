@@ -174,14 +174,13 @@ Moreover, we can use nested classes to have item types and its privileges more o
     
 	    internal static class Orders
 	    {
-	            internal const string Name = "Orders";
-	
-	            internal static class Privileges
-	            {
-	               internal const string Emit = "Emit";
-	                internal const string PickUp = "PickUp";
-	            }
-	        }
+            internal const string Name = "Orders";
+
+            internal static class Privileges
+            {
+				internal const string Emit = "Emit";
+                internal const string PickUp = "PickUp";
+            }
 	    }   
 	}
 ```
@@ -199,7 +198,7 @@ In the following code snippet, we will assign the "CheckPrice" permission to the
     var permissionService = new PermissionService();
   
     permissionService.AddPermissionToUser(user, Permissions.Products.Name, null,
-      Permissions.Products.Privileges.CheckPrice);`   
+      Permissions.Products.Privileges.CheckPrice); 
 ```
 
 **Note**: Bodiam handles the Item Id as Guid. Remember to keep track of such identifying property on your object model.   
@@ -213,16 +212,17 @@ For Resource Based Authorization you can use the [ResourceAuthorizeAttribute] cl
 
 Coarse-grain authorization permits the checking of a privilege over an item group.   
  
-  C#   
-    `public class ProductController
+```c#
+    public class ProductController
     {
       ...
       [HttpGet]
-      [ResourceAuthorize  (Privilege=Permissions.Products.Privileges.CheckPrice,                       
-    ItemType=Permissions.Products.Name)]
+      [ResourceAuthorize(Privilege=Permissions.Products.Privileges.CheckPrice, 
+						 ItemType=Permissions.Products.Name)]
         public ActionResult List()
         {
-        ... ` 
+        ...
+```
  
 This example uses Permissions.Products.Privileges.CheckPrice and Permissions.Products.Name constants. Notice that these two example constants are part of the application model and not from the Bodiam object model.   
  
@@ -242,25 +242,25 @@ The **ResourceAuthorizeAttribute** class relies in the **IPermissionService** fo
 We can also use this service in the UI to display or hide elements according to the user’s permission.
 Consider the following UI usage:   
 
-  C# (cshtml)   
+```html
      <code>@using Bodiam.Services;
      @{
-       var permissionService = new PermissionService();
-       var userService = new UserService();
-       var user = userService.RetrieveUserByName(
+        var permissionService = new PermissionService();
+        var userService = new UserService();
+        var user = userService.RetrieveUserByName(
                   HttpContext.Current.User.Identity.Name);
         bool hasCheckPricePermission = false;   
-    if (user != null)
-       {
+		if (user != null)
+		{
            var userPermissions = permissionService.GetPermissionsOnItemByUser(
             user, Permissions.Products.Name, Guid.Empty);
           hasCheckPricePermission = userPermissions.Any(
            p => p.Privilege == Permissions.Products.Privileges.CheckPrice);
-       }
-     }
-     <p>
+		}
+    }
+    <p>
         Only users with Check Prices can see the Product price
-     </p>
+    </p>
  
     @if(hasCheckPricePermission)
     {
@@ -274,6 +274,7 @@ Consider the following UI usage:
             You do not have the proper permissions.
         </div>    
     }</code>   
+```
 
 In the former example, we are asking the IPermissionService if the current user has the “CheckPrice” privilege, and according to the response, we show or hide the price information.
 Notice that we could have also passed to the IPermissionService a Guid for a specific item (instead of Guid.Empty), forcing fine-grained authorization. 
@@ -300,7 +301,7 @@ Bodiam offers the possibility of sending Invitation Codes to outside users. Invi
 
 Suppose we get back the users contact information for a Form. We will want to keep track of this information to consider inviting the user in the future.   
 
-  C#
+```c#
     var invitationService = new InvitationService();
 
     invitationService.SaveAccessRequest(new AccessRequest()
@@ -311,16 +312,18 @@ Suppose we get back the users contact information for a Form. We will want to ke
        Comment = model.Comment,
        CreateDateTime = DateTime.UtcNow
     });   
+```
 
 **Consuming Requests**   
 
 To get the currentyou can simply consult the InvitationService   
 
-  C#   
+```c#  
     var invitationService = new InvitationService();   
     IEnumerable<AccessRequest> requests = invitationService.GetRequests();   
+```
 
-**Inviting an User**   
+**Inviting a User**   
 
 For inviting new users, you will need to add the user to the Bodiam context via the UserService. Once this is done, use the InvitationService to send the invitation.   
  
@@ -335,16 +338,16 @@ An Invitation will need the following information to be correctly delivered:
 
 Optionally, you can add an Access Request Id for tracking the invitations back to the Access Request. You can also indicate the InvitationService to sign the invitation with the sender’s username.   
 
-  C#   
+```c#
     var userService = new UserService();
     var invitationService = new InvitationService();
 
-    User user = new User() { Name = “User Name”, Email = “user@mail.com” };
+    User user = new User() { Name = "User Name", Email = "user@mail.com" };
    
     userService.CreateUser(user);
  
-    var invitationLink = “Invitation/Accept”;
-    var personalMessage = “Please accept this invitation.”
+    var invitationLink = "Invitation/Accept";
+    var personalMessage = "Please accept this invitation.";
     var useSignature = false;
     Guid accessRequestId = null;
 
@@ -354,6 +357,7 @@ Optionally, you can add an Access Request Id for tracking the invitations back t
                user, invitationLink, expiration, 
                personalMessage, useSignature, accessRequestId
                );   
+```
 
 **Accepting Invitations**   
 
@@ -364,11 +368,11 @@ You do not have to do anything special to accept users coming to the application
 
 Suppose we want to create a new role called “Customer”. Bodiam offers the IRoleService for role handling.   
 
-  C#   
+```c#
     var roleService = new RoleService();
-    var role = new Role(){Name=’Customer’, Description=‘This is a sample role’};
+    var role = new Role() { Name="Customer", Description="This is a sample role" };
     roleService.CreateRole(user);   
-
+```
 
 Just like with the UserService, the CreateRole method will insert the new role in the Bodiam database.   
 
@@ -378,28 +382,30 @@ Role managing is done in the IRoleService. This is also true for assigning roles
 
 We will use the RoleService to get the “Customer” role and the UserService to get the user named “Test User”. Finally, we will assign the “Customer” role to the “Test User”.   
 
-  C#   
+```c#
     var roleService = new RoleService();
     var userService = new UserService();
 
-    var user = userService. RetrieveUserByName(‘Test User’);
-    var role = roleService.GetRoleByName(‘Customer’);
+    var user = userService. RetrieveUserByName("Test User");
+    var role = roleService.GetRoleByName("Customer");
 
     roleService.AssignRoleToUser(role, user);   
+```
 
 The AssignRoleToUser method will save the new relationship in the Bodiam database.   
 
 Granting Privileges over an Item Type
 Suppose we want to assign permission to the “Customer” role instead of to a particular user, so we can have the “CheckPrice” right over all our defined customers.
-  C#   
-    `var roleService = new roleService();
-     var role = roleService.GetRoleByName(‘Customer’);
+  
+```c#
+     var roleService = new roleService();
+     var role = roleService.GetRoleByName("Customer");
   
      var permissionService = new PermissionService();
   
      permissionService.AddPermissionToRole(role, Permissions.Products.Name,
-      null, Permissions.Products.Privileges.CheckPrice);`   
-
+		null, Permissions.Products.Privileges.CheckPrice);
+```
 
 ###Role Based authorization
 
@@ -415,18 +421,20 @@ Roles can be identified by their name. Bodiam includes a role enumeration called
 
 Feel free to use these or to create your own.   
 
-  C#
-    `[RoleAuthorize(Roles = SecurityRoles.SecurityAdmins)]
+```c#
+    [RoleAuthorize(Roles = SecurityRoles.SecurityAdmins)]
     public class HomeController
     {
-      ...`   
+      ...
+```	  
 
 Multiple roles can be entered as a single string with comma-separated values   
 
-  C#
-    `[RoleAuthorize(Roles = “User, PowerUser”)]
+```c#
+    [RoleAuthorize(Roles = "User, PowerUser")]
     public class HomeController
     {
-      ... `   
+      ... 
+```	  
 
 #The Administration Interface
