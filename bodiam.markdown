@@ -122,76 +122,85 @@ For these examples, you can create a blank Console Application or directly try t
 
 Frist add the following using statements for these examples   
 
+```c#
     ...   
     using Bodiam.Entities;      
     using Bodiam.Services;   
     ...   
+```
 
 #Creating a new user
 Bodiam provides an invitation mechanism to populate users but it also offers the IUserService to create users manually. In this case, we will use the CreateUser method.   
   
+```c#
     var userService = new UserService();   
-    var user = new User(){Name=’Test User’, Email = test@email.com’};   
+    var user = new User() { Name="Test User", Email = "test@email.com" };   
     userService.CreateUser(user);   
+```
 
 Note that the Name and Email fields are mandatory for the user creation. The CreateUser method will persist the new User in the Bodiam database.   
 
 ##Defining the Privileges and Items
 Suppose we have two Item Types, “Products” and “Orders”. In addition, we want to have a “Check Price” and “Buy” permissions over products an “Emit” and “Pick Up” permits over orders.
 To represent these Item Types and Privileges, we could create the following constants.
-C#   
-
+   
+```c#
     internal static class Permissions 
     {   
-        internal const string Products = “Products”;  
-        internal const string ProductsCheckPrice = “CheckPrice”;   
-        internal const string ProductsBuy = “Buy”;   
-        internal const string Orders = “Orders”;   
-        internal const string OrdersEmit = “Emit”;   
-        internal const string OrdersPickUp = “PickUp”;   
+        internal const string Products = "Products";  
+        internal const string ProductsCheckPrice = "CheckPrice";   
+        internal const string ProductsBuy = "Buy";   
+        internal const string Orders = "Orders";   
+        internal const string OrdersEmit = "Emit";   
+        internal const string OrdersPickUp = "PickUp";   
     }      
+```
 
 Moreover, we can use nested classes to have item types and its privileges more organized.
 
+```c#
     namespace Permissions
     {
         internal static class Products
         {
-            internal const string Name = “Products”;
+            internal const string Name = "Products";
 
             internal static class Privileges
             {
-                internal const string CheckPrice = “CheckPrice”;
-                internal const string Buy = “Buy”;
+                internal const string CheckPrice = "CheckPrice";
+                internal const string Buy = "Buy";
             }
         }
     
-    internal static class Orders
-    {
-            internal const string Name = “Orders”;
-
-            internal static class Privileges
-            {
-               internal const string Emit = “Emit”;
-                internal const string PickUp = “PickUp”;
-            }
-        }
-    }   
+	    internal static class Orders
+	    {
+	            internal const string Name = "Orders";
+	
+	            internal static class Privileges
+	            {
+	               internal const string Emit = "Emit";
+	                internal const string PickUp = "PickUp";
+	            }
+	        }
+	    }   
+	}
+```
 
 ##Granting Privileges over an Item Type
   
 Bodiam provides the IPermissionService which enables the user to grant (or revoke) privileges over Items.   
 
-In the following code snippet, we will assign the “CheckPrice” permission to the “Test Customer” user for the “Product” Item type.   
+In the following code snippet, we will assign the "CheckPrice" permission to the "Test Customer" user for the "Product" Item type.   
 
-  C#
+```c#
     var userService = new UserService();
-    var user = userService.RetrieveUserByName(‘Test User’);
+    var user = userService.RetrieveUserByName("Test User");
   
     var permissionService = new PermissionService();
   
     permissionService.AddPermissionToUser(user, Permissions.Products.Name, null,
       Permissions.Products.Privileges.CheckPrice);`   
+```
 
 **Note**: Bodiam handles the Item Id as Guid. Remember to keep track of such identifying property on your object model.   
 
