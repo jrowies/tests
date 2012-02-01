@@ -1,4 +1,12 @@
 [MODEL]: https://github.com/jrowies/tests/raw/master/pics/Model.png
+[ADMINAREA1]: https://github.com/jrowies/tests/raw/master/pics/AdminArea1.png
+[ADMINAREA2]: https://github.com/jrowies/tests/raw/master/pics/AdminArea2.png
+[ADMINAREA3]: https://github.com/jrowies/tests/raw/master/pics/AdminArea3.png
+[ADMINAREA4]: https://github.com/jrowies/tests/raw/master/pics/AdminArea4.png
+[ADMINAREA5]: https://github.com/jrowies/tests/raw/master/pics/AdminArea5.png
+[ADMINAREA6]: https://github.com/jrowies/tests/raw/master/pics/AdminArea6.png
+[ADMINAREA7]: https://github.com/jrowies/tests/raw/master/pics/AdminArea7.png
+[ADMINAREA8]: https://github.com/jrowies/tests/raw/master/pics/AdminArea8.png
 
 #**Bodiam**
 ##*Installation and Basic Usage*
@@ -111,8 +119,6 @@ Bodiam expects the user to define the security model based on the type of items 
 The following diagram shows the conceptual security model
 
 ![Model.png][MODEL]
-
-[PIC WORD DOC PAGE 6]
 
 Bodiam already provides implementations of the User and the Role classes. Bodiam utilizes the concept of Role as a way to ease the management of a set of common permissions.   
 
@@ -543,42 +549,42 @@ If you go to the AdminController code, you will find the former code commented o
 
 Start the sample application with CTRL+F5 from Visual Studio. Click on the Administration tab to launch the Administration Interface.
 
-[PIC WORD DOC PAGE 16]
+![AdminArea1.png][ADMINAREA1]
 
 ##Access Request
 
 From here, you can see a list of users who have requested access to your application. A link with the ability to send an invitation will appear next to each entry in the Access Request table.
 
-[PIC WORD DOC PAGE 16]
+![AdminArea2.png][ADMINAREA2]
 
 ##Inviting New Users
 
 The Administration Area implements the Invitation Mechanism provided by Bodiam. Adding new users to the application has never been easier. Just click the Invitations menu link and the Invitation’s Administration interface will appear.
 From this interface, you can Invite new users and view the status of past invitations. It is also possible to resend an invitation to any user.
 
-[PIC WORD DOC PAGE 17]
+![AdminArea3.png][ADMINAREA3]
 
 ##Managing User’s Permissions
 
 The User Management section (User Details) is the key feature of the Administration Interface. Here you can add or remove a user from one of the defined Roles or you can set precise permission over an item for a given user (fine-grained authorization).
 
-[PIC WORD DOC PAGE 18]
+![AdminArea4.png][ADMINAREA4]
 
 ##Managing Roles
 
 Click the Role menu to access the Role Managing section of the Administration Interface. Here you can see a list of all the Roles in the application with their descriptions.  You will be able to create new roles and set permissions in the role details page.  You can also add or remove users to the selected role.
 
-[PIC WORD DOC PAGE 19]
+![AdminArea5.png][ADMINAREA5]
 Roles page.  Displays a list of roles.
 
 If you go to the RoleDetails page, by clicking on View, you will be able to configure permissions on item types or specific item instances.  You can also manage the users that are associated to the selected role in the Users tab.
 
-[PIC WORD DOC PAGE 19]
+![AdminArea6.png][ADMINAREA6]
 Role details page.  Managing permissions and users for the selected role.
 
 ##Managing permissions for particular item instances
 
 The Administration Interface allows you to configure permissions for a particular item instance through the ItemPermissions page.  This page will allow you to manage privileges to selected users.  Future versions will allow the user to configure privileges for roles as well.
 
-[PIC WORD DOC PAGE 20]
+![AdminArea7.png][ADMINAREA7]
 ItemPermissions page.  Manage permissions for a particular item instance.
