@@ -37,46 +37,67 @@ Bodiam is an authorization library that restricts what items a given user is all
 	</microsoft.identityModel>
 	```
 5. In the conectionStrings section add the connection string to the Bodiam database
-      **`<configuration>   
-      ...  
+    
+	```xml
+	<configuration>   
+    	...  
         <connectionStrings>   
-          ...
-          <add name="SecurityEntities" connectionString="Data Source=XXXXXXXX;Initial Catalog=XXXXXXXXX;Integrated Security=True" />     
-      ...
-       </connectionStrings>   
-       ...
-     </configuration>`**
+        	...
+          <add name="SecurityEntities" 
+			connectionString="Data Source=XXXXXXXX;Initial Catalog=XXXXXXXXX;Integrated Security=True" />     
+      	...
+     	</connectionStrings>   
+       	...
+     </configuration>
+	```
 6. Add the SMTP configuration settings for sending invitations to new users
-  XML
-    `<configuration>
-      ...
-      <appSettings>
+  
+    ```xml
+	<configuration>
+    	...
+    	<appSettings>
+	        ...
+	        <add key="SmtpHost" value="XXXXX" />
+	        <add key="SmtpPort" value="XXXXX" />
+	        <add key="SmtpUser" value="XXXXX@XXXXX” />
+	        <add key="SmtpPassword" value="XXXXX" />
+	        <add key="SmtpSenderName" value="XXXXX" />
+	        <add key="SmtpSenderAddress" value="XXXXX@XXXXX"   />
+	        <add key="InvitationTitle" value="XXXXX"/>
+	        ...
+	    </appSettings>
         ...
-        <add key="SmtpHost" value="XXXXX" />
-        <add key="SmtpPort" value="XXXXX" />
-        <add key="SmtpUser" value="XXXXX@XXXXX” />
-        <add key="SmtpPassword" value="XXXXX" />
-        <add key="SmtpSenderName" value="XXXXX" />
-        <add key="SmtpSenderAddress" value="XXXXX@XXXXX"   />
-        <add key="InvitationTitle" value="XXXXX"/>
-        ...
-      </appSettings>
-        ...
-    </configuration>`   
+    </configuration>
+	```
 7. In the appSettings section add the route to where new users will be directed when they receive an invitation 
 
+    ```xml
+	<configuration>
+		...
+		<appSettings>
+			...
+			<add key="UserAccountInvitationAction" value="/XXXXX/XXXXX" />
+			...
+		</appSettings>
+		...
+	</configuration>
+    ```
+	
 ##Providing configuration settings values
 
 Application settings and connection strings are retrieved by default from the application configuration file, but you can customize this behavior and retrieve settings from other sources. This can be useful, for instance, if you are hosting your application as a web role in Windows Azure and you want to retrieve settings from the service configuration file.   
 
 The ConfigReader class has two delegates that can be assigned in order to resolve application settings values or connection strings.   
 
-This is an example showing how to provide a delegate to read application settings values from the Windows Azure service configuration file:   
-    `Bodiam.Helpers.ConfigReader.GetConfigValueDelegate = 
-    (string key) =>   
-    {   
-        return RoleEnvironment.GetConfigurationSettingValue(key);   
-    };`   
+This is an example showing how to provide a delegate to read application settings values from the Windows Azure service configuration file:
+   
+    ```c#
+    Bodiam.Helpers.ConfigReader.GetConfigValueDelegate = 
+	    (string key) =>   
+	    {   
+	        return RoleEnvironment.GetConfigurationSettingValue(key);   
+	    };
+	```
 
 In a similar way, you can provide a delegate to read connection strings by setting the property **GetConnectionStringDelegate** of the **ConfigReader** class.   
 
