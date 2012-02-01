@@ -1,9 +1,8 @@
 #**Bodiam**
-
 ##*Installation and Basic Usage*
 
 #**Overview**
-Bodiam is an authorization library that restricts what items a given user is allowed to access. It allows coarse-grained access checks based on “item types” or fine-grained to specific instances of the items. Permissions can be granted to users or roles. Enforcement is managed with an API or using ASP.NET MVC attributes. The current implementation expects the application to use federated authentication.   
+Bodiam is an authorization library that restricts what items a given user is allowed to access. It allows coarse-grained access checks based on "item types" or fine-grained to specific instances of the items. Permissions can be granted to users or roles. Enforcement is managed with an API or using ASP.NET MVC attributes. The current implementation expects the application to use federated authentication.   
 
 #**Installation**   
 ##*Installation Requirements*   
@@ -107,6 +106,10 @@ In a similar way, you can provide a delegate to read connection strings by setti
 ##Defining Item Types, Privileges and Permissions
 Bodiam expects the user to define the security model based on the type of items to be secured (like an Order entity or a specific use case of the application), the privileges over those item types (like Read, Write, Grant, etc.) and finally the relationship between users or roles and these items as permissions.   
 
+The following diagram shows the conceptual security model
+
+[PIC WORD DOC PAGE 6]
+
 Bodiam already provides implementations of the User and the Role classes. Bodiam utilizes the concept of Role as a way to ease the management of a set of common permissions.   
 
 The implementation of Privileges, Item Types, and Items is up to the user but must follow certain rules:   
@@ -141,7 +144,7 @@ Bodiam provides an invitation mechanism to populate users but it also offers the
 Note that the Name and Email fields are mandatory for the user creation. The CreateUser method will persist the new User in the Bodiam database.   
 
 ##Defining the Privileges and Items
-Suppose we have two Item Types, “Products” and “Orders”. In addition, we want to have a “Check Price” and “Buy” permissions over products an “Emit” and “Pick Up” permits over orders.
+Suppose we have two Item Types, "Products" and "Orders". In addition, we want to have a "Check Price" and "Buy" permissions over products an "Emit" and "Pick Up" permits over orders.
 To represent these Item Types and Privileges, we could create the following constants.
    
 ```c#
@@ -215,13 +218,13 @@ Coarse-grain authorization permits the checking of a privilege over an item grou
 ```c#
     public class ProductController
     {
-      ...
-      [HttpGet]
-      [ResourceAuthorize(Privilege=Permissions.Products.Privileges.CheckPrice, 
-						 ItemType=Permissions.Products.Name)]
+		...
+		[HttpGet]
+		[ResourceAuthorize(Privilege=Permissions.Products.Privileges.CheckPrice, 
+						   ItemType=Permissions.Products.Name)]
         public ActionResult List()
         {
-        ...
+			...
 ```
  
 This example uses Permissions.Products.Privileges.CheckPrice and Permissions.Products.Name constants. Notice that these two example constants are part of the application model and not from the Bodiam object model.   
@@ -233,7 +236,7 @@ Bodiam will check that the User or any of the User’s roles has the requested P
 ###Fine grain Authorization
 Fine grain authorization permits the user to establish permission over a precise item instance. The Fine grain authorization usage is implicit. Every time the **ResourceAuthorizeAttribute** executes, it checks for the Id parameter in the Request Url. If the parameter is present, the authorization check will be performed over the Privilege Id, Item Type Id and Item Id.   
 
-The **ResourceAuthorizeAttribute** will look for the Item Id as a RouteData value with key “Id”.   
+The **ResourceAuthorizeAttribute** will look for the Item Id as a RouteData value with key "Id".   
  
 ###Using the IPermissionService API
 
@@ -243,7 +246,7 @@ We can also use this service in the UI to display or hide elements according to 
 Consider the following UI usage:   
 
 ```html
-     <code>@using Bodiam.Services;
+     @using Bodiam.Services;
      @{
         var permissionService = new PermissionService();
         var userService = new UserService();
@@ -273,10 +276,10 @@ Consider the following UI usage:
         <div>
             You do not have the proper permissions.
         </div>    
-    }</code>   
+    }
 ```
 
-In the former example, we are asking the IPermissionService if the current user has the “CheckPrice” privilege, and according to the response, we show or hide the price information.
+In the former example, we are asking the IPermissionService if the current user has the "CheckPrice" privilege, and according to the response, we show or hide the price information.
 Notice that we could have also passed to the IPermissionService a Guid for a specific item (instead of Guid.Empty), forcing fine-grained authorization. 
 
 ##Handling Unauthorized Access
@@ -355,8 +358,7 @@ Optionally, you can add an Access Request Id for tracking the invitations back t
  
     var invitation = invitationService.InviteUser(
                user, invitationLink, expiration, 
-               personalMessage, useSignature, accessRequestId
-               );   
+               personalMessage, useSignature, accessRequestId);   
 ```
 
 **Accepting Invitations**   
@@ -366,7 +368,7 @@ You do not have to do anything special to accept users coming to the application
 ##Working with Roles
 ###Creating a new Role
 
-Suppose we want to create a new role called “Customer”. Bodiam offers the IRoleService for role handling.   
+Suppose we want to create a new role called "Customer". Bodiam offers the IRoleService for role handling.   
 
 ```c#
     var roleService = new RoleService();
@@ -380,7 +382,7 @@ Just like with the UserService, the CreateRole method will insert the new role i
 
 Role managing is done in the IRoleService. This is also true for assigning roles to user or removing them from roles.   
 
-We will use the RoleService to get the “Customer” role and the UserService to get the user named “Test User”. Finally, we will assign the “Customer” role to the “Test User”.   
+We will use the RoleService to get the "Customer" role and the UserService to get the user named "Test User". Finally, we will assign the "Customer" role to the "Test User".   
 
 ```c#
     var roleService = new RoleService();
@@ -395,7 +397,7 @@ We will use the RoleService to get the “Customer” role and the UserService t
 The AssignRoleToUser method will save the new relationship in the Bodiam database.   
 
 Granting Privileges over an Item Type
-Suppose we want to assign permission to the “Customer” role instead of to a particular user, so we can have the “CheckPrice” right over all our defined customers.
+Suppose we want to assign permission to the "Customer" role instead of to a particular user, so we can have the "CheckPrice" right over all our defined customers.
   
 ```c#
      var roleService = new roleService();
@@ -438,3 +440,139 @@ Multiple roles can be entered as a single string with comma-separated values
 ```	  
 
 #The Administration Interface
+
+#**Overview**
+
+Included in the deliverable you can find an ASP.NET MVC 3 area. 
+The Administration Area implements most of the functionalities expose by the Bodiam library.
+
+#**Setup**  
+
+**Note**: The Administration Area enforces Role Authorization, which means you will need to have a valid user to browse the Area once deployed. You can either remove the attribute usage from the Admin and Invitation Controller, or insert a valid user in the database.
+You can check the script located at ~/database/Bodiam.Insert-Admin.sql to see how to insert a user.
+
+1. Copy the content of the ~/code/Admin.Area folder to the Area folder in your solution and add the area to your solution
+2. In the Admin area, you will find a menu item linking back the user to the application. By default, it will redirect the user to ~/Home/Index. If you want to change this behavior, edit the Navigation view file located at ~/Areas/Admin/Security/Views/Shared
+3. If you have not already, follow the Bodiam setup instructions.
+
+#**Adapting the Administration Area to your project**
+
+Currently, the provided Administration Area is not fully implemented. You will need to implement certain snippets of code if you plan to include the area in your solution.
+The Administration Area will need you define the following types/entities
+- Item Type constants
+- Privilege constants
+- Item repository 
+Most of these usages are for querying the Bodiam.PermissionService, which requires and Item, Privilege or Item Type Id.
+
+##Registering Item Types and Privileges for the Administration Area
+
+To register the item types and its privileges, you can use the fluent API defined in the Permissions class:
+
+```c#
+    Permissions.Register(
+        Item.OfType(Permissions.Products.Name)
+            .Can(Permissions.Products.Privileges.CheckPrice) 
+            .Can(Permissions.Products.Privileges.Buy),
+        Item.OfType(Permissions.Orders.Name)
+            .Can(Permissions.Orders.Privileges.Emit) 
+            .Can(Permissions.Orders.Privileges.PickUp));
+```
+
+An alternative for registering Item Types and Privileges more easily is to use the method RegisterUsingNestedClassConvention of the Permissions class.  
+
+```c#
+    Permissions.RegisterUsingNestedClassConvention(
+        typeof(Permissions.Products),
+        typeof(Permissions.Orders));
+```
+
+This method uses the following convention to discover Item Types and Privileges:
+The types passed to the method, must have: 
+1. A constant field called "Name" which will store the name of the Item Type
+2. A nested class called "Privileges" with constant fields storing the name of all the privileges for the corresponding item type 
+
+Example:
+
+```c#
+namespace Permissions
+{
+    internal static class Products
+    {
+        internal const string Name = "Products";
+
+        internal static class Privileges
+        {
+            internal const string CheckPrice = "CheckPrice";
+            internal const string Buy = "Buy";
+        }
+    }
+    
+    internal static class Orders
+    {
+        internal const string Name = "Orders";
+
+        internal static class Privileges
+        {
+            internal const string Emit = "Emit";
+            internal const string PickUp = "PickUp";
+        }
+    }
+}
+```
+
+##Affected methods (AdminController)
+
+If you go to the AdminController code, you will find the former code commented out so you can just copy the parts you need and replace with new code the ones you do not.
+- public ActionResult ItemPermissions
+- public JsonResult AddPermissionsToUser
+- public JsonResult RemovePermissionFromUser
+- public JsonResult AddPermissionToRole
+- public JsonResult GetPermissionListByUser
+- public JsonResult GetPermissionListByItem
+- public JsonResult GetPermissionListByRole
+- public ActionResult UserDetails
+- public ActionResult RoleDetails
+
+#**Trying out the Administration Interface**
+
+Start the sample application with CTRL+F5 from Visual Studio. Click on the Administration tab to launch the Administration Interface.
+
+[PIC WORD DOC PAGE 16]
+
+##Access Request
+
+From here, you can see a list of users who have requested access to your application. A link with the ability to send an invitation will appear next to each entry in the Access Request table.
+
+[PIC WORD DOC PAGE 16]
+
+##Inviting New Users
+
+The Administration Area implements the Invitation Mechanism provided by Bodiam. Adding new users to the application has never been easier. Just click the Invitations menu link and the Invitation’s Administration interface will appear.
+From this interface, you can Invite new users and view the status of past invitations. It is also possible to resend an invitation to any user.
+
+[PIC WORD DOC PAGE 17]
+
+##Managing User’s Permissions
+
+The User Management section (User Details) is the key feature of the Administration Interface. Here you can add or remove a user from one of the defined Roles or you can set precise permission over an item for a given user (fine-grained authorization).
+
+[PIC WORD DOC PAGE 18]
+
+##Managing Roles
+
+Click the Role menu to access the Role Managing section of the Administration Interface. Here you can see a list of all the Roles in the application with their descriptions.  You will be able to create new roles and set permissions in the role details page.  You can also add or remove users to the selected role.
+
+[PIC WORD DOC PAGE 19]
+Roles page.  Displays a list of roles.
+
+If you go to the RoleDetails page, by clicking on View, you will be able to configure permissions on item types or specific item instances.  You can also manage the users that are associated to the selected role in the Users tab.
+
+[PIC WORD DOC PAGE 19]
+Role details page.  Managing permissions and users for the selected role.
+
+##Managing permissions for particular item instances
+
+The Administration Interface allows you to configure permissions for a particular item instance through the ItemPermissions page.  This page will allow you to manage privileges to selected users.  Future versions will allow the user to configure privileges for roles as well.
+
+[PIC WORD DOC PAGE 20]
+ItemPermissions page.  Manage permissions for a particular item instance.
