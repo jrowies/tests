@@ -575,16 +575,17 @@ The User Management section (User Details) is the key feature of the Administrat
 Click the Role menu to access the Role Managing section of the Administration Interface. Here you can see a list of all the Roles in the application with their descriptions.  You will be able to create new roles and set permissions in the role details page.  You can also add or remove users to the selected role.
 
 ![AdminArea5.png][ADMINAREA5]
-Roles page.  Displays a list of roles.
+![AdminArea6.png][ADMINAREA6]
+*Roles page.  Displays a list of roles.*
 
 If you go to the RoleDetails page, by clicking on View, you will be able to configure permissions on item types or specific item instances.  You can also manage the users that are associated to the selected role in the Users tab.
 
-![AdminArea6.png][ADMINAREA6]
-Role details page.  Managing permissions and users for the selected role.
+![AdminArea7.png][ADMINAREA7]
+*Role details page.  Managing permissions and users for the selected role.*
 
 ##Managing permissions for particular item instances
 
 The Administration Interface allows you to configure permissions for a particular item instance through the ItemPermissions page.  This page will allow you to manage privileges to selected users.  Future versions will allow the user to configure privileges for roles as well.
 
-![AdminArea7.png][ADMINAREA7]
-ItemPermissions page.  Manage permissions for a particular item instance.
+![AdminArea8.png][ADMINAREA8]
+*ItemPermissions page.  Manage permissions for a particular item instance.*
