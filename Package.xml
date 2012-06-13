@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Package xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/ContentFramework.Core.Models">
+  <Description>x</Description>
+  <Id>x</Id>
+  <Version>3.1.0</Version>
+  <Name>x</Name>
+  <Overview>
+    <Author>
+      <Blog>
+      </Blog>
+      <Email>
+      </Email>
+      <Name>x</Name>
+    </Author>
+    <Description>x</Description>
+    <Document>
+    </Document>
+    <Title>x</Title>
+    <Version>x</Version>
+  </Overview>
+  <DefaultInstallLocation>C:\x</DefaultInstallLocation>
+  <RelatedResources/>
+  <Prerequisites>
+   <Group Name="x" Order="1" Description="">
+      <Prerequisites>
+		<Prerequisite Name="x" Link="http://www.x.com/" Description="" />
+      </Prerequisites>
+    </Group>
+  </Prerequisites>
+  <Units xmlns:d="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
+	<Unit>
+		<Description>This is a test</Description>
+		<Id>test</Id>
+		<Name>This is a test</Name>
+		<Labs>
+			<Lab>git@github.com:jrowies/tests.git</Lab>
+		</Labs>		
+	</Unit>
+  </Units>
+  <CustomProperties>
+    <Property Name="x" Value="http://www.x.com/" />
+  </CustomProperties>
+  <Feedback>x@x.com</Feedback>
+</Package>

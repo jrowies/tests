@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Lab xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/ContentFramework.Core.Models">
+  <Id>test</Id>
+  <Technologies>
+    <Technology>x</Technology>	
+  </Technologies>
+  <Author>
+	<Blog>
+	</Blog>
+	<Email>
+	</Email>	
+    <Name></Name>
+  </Author>
+  <Description>This is a test.</Description>
+  <Document ConversionType="Html">.\x.txt</Document>
+  <Title>This is a test</Title>
+  <Version>1.0.0</Version>
+  <Source>.\Source</Source>
+  <CustomProperties>
+	<Property Name="GitHubRepository" Value="https://github.com/x/x" />
+  </CustomProperties>   
+</Lab> 
